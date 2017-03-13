@@ -1,6 +1,6 @@
 # Clickbaits Revisited
 
-This repository provides the code used for : [add article link]
+This repository provides the code used for : https://www.linkedin.com/pulse/clickbaits-revisited-deep-learning-title-content-features-thakur
 
 
 ### Data Collection
