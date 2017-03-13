@@ -98,7 +98,7 @@ merged_model.add(Dense(2))
 merged_model.add(Activation('softmax'))
 
 merged_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy', 'precision', 'recall'])
-checkpoint = ModelCheckpoint('../data/weights_title+content_tdd.h5', monitor='val_acc', save_best_only=True, verbose=2)
+checkpoint = ModelCheckpoint('../data/weights.h5', monitor='val_acc', save_best_only=True, verbose=2)
 
 merged_model.fit([x_train_title, x_train_textdata], y=ytrain_enc,
                  batch_size=128, nb_epoch=200, verbose=2, validation_split=0.1,
