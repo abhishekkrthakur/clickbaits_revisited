@@ -46,31 +46,27 @@ x_test_textdata = sequence.pad_sequences(x_test_textdata, maxlen=max_len)
 word_index = tk.word_index
 ytrain_enc = np_utils.to_categorical(y_train)
 
-merged_model = Sequential()
-merged_model.add(Embedding(len(word_index) + 1, 300, input_length=80, dropout=0.2))
-merged_model.add(LSTM(300, dropout_W=0.2, dropout_U=0.2))
+model = Sequential()
+model.add(Embedding(len(word_index) + 1, 300, input_length=80, dropout=0.2))
+model.add(LSTM(300, dropout_W=0.2, dropout_U=0.2))
 
-model2 = Sequential()
-model2.add(Embedding(len(word_index) + 1, 300, input_length=80, dropout=0.2))
-model2.add(LSTM(300, dropout_W=0.2, dropout_U=0.2))
+model.add(Dense(200))
+model.add(PReLU())
+model.add(Dropout(0.2))
+model.add(BatchNormalization())
 
-merged_model.add(Dense(200))
-merged_model.add(PReLU())
-merged_model.add(Dropout(0.2))
-merged_model.add(BatchNormalization())
+model.add(Dense(200))
+model.add(PReLU())
+model.add(Dropout(0.2))
+model.add(BatchNormalization())
 
-merged_model.add(Dense(200))
-merged_model.add(PReLU())
-merged_model.add(Dropout(0.2))
-merged_model.add(BatchNormalization())
+model.add(Dense(2))
+model.add(Activation('softmax'))
 
-merged_model.add(Dense(2))
-merged_model.add(Activation('softmax'))
-
-merged_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy', 'precision', 'recall'])
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy', 'precision', 'recall'])
 
 checkpoint = ModelCheckpoint('../data/weights.h5', monitor='val_acc', save_best_only=True, verbose=2)
 
-merged_model.fit(x_train_title, y=ytrain_enc,
+model.fit(x_train_title, y=ytrain_enc,
                  batch_size=128, nb_epoch=200, verbose=2, validation_split=0.1,
                  shuffle=True, callbacks=[checkpoint])
